@@ -1,10 +1,20 @@
 import '../css/Home.css';
 import { MovieCard } from '../components/MovieCard';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { getPopularMovies, searchMovies } from '../services/api';
 
+// useReducer para manejar searchQuery
+function searchQueryReducer(state, action) {
+  switch (action.type) {
+    case 'SET_QUERY':
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 export function Home() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, dispatchSearchQuery] = useReducer(searchQueryReducer, '');
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -53,7 +63,9 @@ export function Home() {
           placeholder="Search for movies..."
           className="search-input"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) =>
+            dispatchSearchQuery({ type: 'SET_QUERY', payload: e.target.value })
+          }
         />
         <button type="submit" className="search-button">
           Search
