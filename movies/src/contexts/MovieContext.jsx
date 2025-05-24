@@ -18,23 +18,25 @@ export const MovieProvider = ({ children }) => {
   }, [favorites]);
 
   const addToFavorites = (movie) => {
-    setFavorites(prev = > [...prev], movie);
+    setFavorites((prev) => [...prev], movie);
   };
 
   const removeFromFavorites = (movieId) => {
-    setFavorites(prev => prev.filter( movie => movie.id !== movieId))
-  }
+    setFavorites((prev) => prev.filter((movie) => movie.id !== movieId));
+  };
 
   const isFavorite = (movieId) => {
-    return favorites.some(movie => movie.id === movieId)
-  }
+    return favorites.some((movie) => movie.id === movieId);
+  };
 
   const value = {
     favorites,
     addToFavorites,
     removeFromFavorites,
-    isFavorite
-  }
-  
-  return <movieContext.Provider value={value}>{children}</movieContext.Provider>;
+    isFavorite,
+  };
+
+  return (
+    <movieContext.Provider value={value}>{children}</movieContext.Provider>
+  );
 };
